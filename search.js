@@ -2,7 +2,6 @@
 // https://developers.google.com/youtube/terms
 // Called automatically when JavaScript client library is loaded.
 var html = "";
-
 //var texto = contenido.replace(/<[^>]*>?/g, '');;
 
 function onClientLoad() {
@@ -18,12 +17,13 @@ function search() {
     var query = document.getElementById('query').value;
     //var contenido = document.getElementById('info');
     console.log(query);
-
+    var numResultados = document.getElementById('resultados').value;
+   // console.log(Number(numResultados));
         var request = gapi.client.youtube.search.list({
             part: 'snippet',
             type: 'video',
             q: query,
-            maxResults: 10,
+            maxResults: numResultados,
             order: 'videoCount'
         });
 
@@ -59,23 +59,30 @@ function ubicacion(itemd) {
             var item = response.items[i];
             var titulo_video = itemd.snippet.title;
             var id_video = itemd.id.videoId;
-            var canal = itemd.snippet.channelTitle;
+            //var canal = itemd.snippet.channelTitle;
             var fecha = itemd.snippet.publishedAt;
-            html += '<div><p><iframe src=\"//www.youtube.com/embed/' + id_video + '\" allowfullscreen width="200" height="80"></iframe></p>';
-            html += '<p><h3>Titulo del Video: </h3>' + titulo_video + '</p>';
-            html += '<p><h4>Nombre del Canal: </h4>' + canal + '</p>';
-            html += '<p><h4>Fecha de Subida: </h4>' + fecha + '</p>';
+            
+            html += '<div><iframe src=\"//www.youtube.com/embed/' + id_video + '\" allowfullscreen width="600" height="400"></iframe>';
+            html += '<h3>Titulo del Video: </h3>' + titulo_video;
+            html += '<h4>Fecha de Subida: </h4>' + moment(fecha).format('DD/MM/YYYY');
+            html += '<p><h4>Localización</h4></p>';
             if(item.recordingDetails) {
                 try {
-                    html += '<p><h4>Localización</h4></p>';
                     var latitud = item.recordingDetails.location.latitude;
                     var longitud = item.recordingDetails.location.longitude;
-                    html += '<p><h5>Latitud: </h5>' + latitud + '</p>';
-                    html += '<p><h5>Longitud: </h5>' + longitud + '</p></div>';
+                    if(latitud == undefined || longitud == undefined){
+                        html +='<h5>Esta busqueda no tiene latitud y longitud</h5>';
+                    }else{
+                        html += '<p><h5>Latitud: </h5>' + latitud + '</p>';
+                        html += '<p><h5>Longitud: </h5>' + longitud + '</p></div>';    
+                    }
                 } catch(err) {
                     
                 }
-            }
+            }else
+                html +='<h5>Esta busqueda no tiene latitud y longitud</h5>';
+                
+            
             html +='<hr>';
         }
         document.getElementById('info').innerHTML = html;
