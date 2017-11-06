@@ -2,6 +2,7 @@
 // https://developers.google.com/youtube/terms
 // Called automatically when JavaScript client library is loaded.
 var html = "";
+var clave = 'AIzaSyAvMwJrYgnwyepvkDhCHBXOgi49clWWM7M';
 //var texto = contenido.replace(/<[^>]*>?/g, '');;
 
 function onClientLoad() {
@@ -65,7 +66,7 @@ function ubicacion(itemd) {
             html += '<div><iframe src=\"//www.youtube.com/embed/' + id_video + '\" allowfullscreen width="600" height="400"></iframe>';
             html += '<h3>Titulo del Video: </h3>' + titulo_video;
             html += '<h4>Fecha de Subida: </h4>' + moment(fecha).format('DD/MM/YYYY');
-            html += '<p><h4>Localización</h4></p>';
+            html += '<h4>Localización</h4>';
             if(item.recordingDetails) {
                 try {
                     var latitud = item.recordingDetails.location.latitude;
@@ -73,8 +74,13 @@ function ubicacion(itemd) {
                     if(latitud == undefined || longitud == undefined){
                         html +='<h5>Esta busqueda no tiene latitud y longitud</h5>';
                     }else{
-                        html += '<p><h5>Latitud: </h5>' + latitud + '</p>';
-                        html += '<p><h5>Longitud: </h5>' + longitud + '</p></div>';    
+                        html += '<h5>Latitud: </h5>' + latitud;
+                        html += '<h5>Longitud: </h5>' + longitud + '</div>'; 
+                        var ruta = 'https://maps.googleapis.com/maps/api/staticmap?zoom=20&size=700x600&maptype=roadmap&markers=color:green%7Clabel:L%7C'+latitud+','+longitud+'&key='+clave;
+                        html +=  '<div class="mapa">'
+                        +'<img src='+ruta+'>'
+                        +'</div>';
+
                     }
                 } catch(err) {
                     
