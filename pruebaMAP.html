@@ -1,15 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+      #map {
+        height: 100%;
+      }
 
-</head>
-<body>
-<img src="https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x300&maptype=roadmap
-&markers=color:green%7Clabel:L%7C48.8566093445,2.35222005844
-&key=AIzaSyAvMwJrYgnwyepvkDhCHBXOgi49clWWM7M" alt="">
-</body>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script type="text/javascript">
+
+
+    function initMap() {
+      var uluru = {lat: 49.2612304688, lng: -123.113929749};
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: uluru
+      });
+
+      var contentString = 'ijfdiojfidsjfiosjfiosjdfios';
+
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+      var marker = new google.maps.Marker({
+        position: uluru,
+        map: map,
+        title: 'Uluru (Ayers Rock)'
+      });
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+    }
+    </script>
+  </head>
+  <body>
+ hola
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPMla_m0hrhw7D9aL4B42b-DUleC4rHgo&callback=initMap" async defer></script>
+
+    <div id="map"></div>
+
+  </body>
 </html>
